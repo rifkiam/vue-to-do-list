@@ -21,6 +21,7 @@
                             </div>
                         </div>
                         <p class="mt-3">{{ items.detail }}</p>
+                        <p class="mt-3">Due date: {{ items.date }}</p>
                         <div v-if="items.editState" class="pt-3">
                             <div class="p-6 border rounded-md">
                                 <div>
@@ -37,6 +38,15 @@
                                 </div>
                                 <div>
                                     <textarea type="text" v-model="detail" id="detail" ref="detail" name="detail" class="border w-80" v-bind:placeholder="items.detail"></textarea>
+                                </div>
+
+                                <br>
+
+                                <div>
+                                    <label for="dueDate">Due Date:</label>
+                                </div>
+                                <div>
+                                    <input type="date" v-model="dueDate" id="dueDate" ref="dueDate" name="dueDate" class="border w-80" v-bind:placeholder="items.date">
                                 </div>
                                 <div class="space-x-3 mt-3">
                                     <button class="border rounded-md px-5" @click="editTask(items.editState, 'urgent', items.id)">Edit</button>
@@ -69,6 +79,15 @@
                         <div>
                             <textarea type="text" v-model="detail" id="detail" name="detail" class="border w-80"></textarea>
                         </div>
+
+                        <br>
+
+                        <div>
+                            <label for="dueDate">Due Date:</label>
+                        </div>
+                        <div>
+                            <input type="date" v-model="dueDate" id="dueDate" ref="dueDate" name="dueDate" class="border w-80">
+                        </div>
                     </div>
                     <div class="p-6">
                         <button class="bg-zinc-800 p-3 rounded-md text-white font-bold" @click="addDataUrgent()">Add Task</button>
@@ -92,6 +111,7 @@
                             </div>
                         </div>
                         <p class="mt-3">{{ items.detail }}</p>
+                        <p class="mt-3">Due date: {{ items.date }}</p>
                         <div v-if="items.editState" class="pt-3">
                             <div class="p-6 border rounded-md">
                                 <div>
@@ -108,6 +128,15 @@
                                 </div>
                                 <div>
                                     <textarea type="text" v-model="detail" id="detail" ref="detail" name="detail" class="border w-80" v-bind:placeholder="items.detail"></textarea>
+                                </div>
+
+                                <br>
+
+                                <div>
+                                    <label for="dueDate">Due Date:</label>
+                                </div>
+                                <div>
+                                    <input type="date" v-model="dueDate" id="dueDate" ref="dueDate" name="dueDate" class="border w-80" v-bind:placeholder="items.date">
                                 </div>
                                 <div class="space-x-3 mt-3">
                                     <button class="border rounded-md px-5" @click="(items.editState = !items.editState); editTask('not-urgent', items.id)">Edit</button>
@@ -139,6 +168,15 @@
                         </div>
                         <div>
                             <textarea type="text" v-model="detail" id="detail" name="detail" class="border w-80"></textarea>
+                        </div>
+
+                        <br>
+
+                        <div>
+                            <label for="dueDate">Due Date:</label>
+                        </div>
+                        <div>
+                            <input type="date" v-model="dueDate" id="dueDate" ref="dueDate" name="dueDate" class="border w-80">
                         </div>
                     </div>
                     <div class="p-6">
@@ -252,6 +290,7 @@ export default{
             title: '',
             detail: '',
             urgency: '',
+            dueDate: '',
             showFormUrgent: false,
             showFormNotUrgent: false,
             showFormNoDueTime: false,
@@ -328,6 +367,7 @@ export default{
                     completed: false,
                     id: '',
                     editState: false,
+                    date: this.dueDate,
                 });
                 
                 await setDoc(doc(db, "urgent", docRef.id), {
@@ -336,6 +376,7 @@ export default{
                     completed: false,
                     id: docRef.id,
                     editState: false,
+                    date: this.dueDate,
                 });
 
                 console.log("Document written with ID: ", docRef.id);
@@ -346,6 +387,7 @@ export default{
             }
             this.title = '';
             this.detail = '';
+            this.dueDate = '';
         },
         async addDataNotUrgent() {
             try {
@@ -355,6 +397,7 @@ export default{
                     completed: false,
                     id: '',
                     editState: false,
+                    date: this.dueDate,
                 });
                 
                 await setDoc(doc(db, "not-urgent", docRef.id), {
@@ -363,6 +406,7 @@ export default{
                     completed: false,
                     id: docRef.id,
                     editState: false,
+                    date: this.dueDate,
                 });
 
                 console.log("Document written with ID: ", docRef.id);
@@ -374,6 +418,7 @@ export default{
             }
             this.title = '';
             this.detail = '';
+            this.dueDate = '';
         },
         async addDataNoDueTime() {
             try {
@@ -402,6 +447,7 @@ export default{
             }
             this.title = '';
             this.detail = '';
+            this.dueDate = '';
         },
         async removeTask(coll, id) {
             await deleteDoc(doc(db, coll, id));
@@ -423,6 +469,7 @@ export default{
                 completed: false,
                 id: id,
                 editState: state,
+                date: this.dueDate,
             });
             if (coll === "urgent") {
                 this.loadUrgent();
